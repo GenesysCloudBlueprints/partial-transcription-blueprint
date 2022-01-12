@@ -150,7 +150,7 @@ export enum Standing {
 export function QueueList(props: any) {
 
   let closedConversationIds: string[] = [];
-  const badWords = ['hello', 'heck', 'darn',  'shoot', 'tartar sauce', 'melon farmer'];
+  const badWords = ['bad word'];
 
   const [queues, setQueues] = useState<Queue[]>([]);
 
