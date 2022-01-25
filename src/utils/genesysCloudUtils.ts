@@ -2,18 +2,9 @@ import { clientConfig } from '../config/clientConfig';
 import moment from 'moment';
 const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
 
-interface IQueue {
-    id: string,
-    activeUsers: number,
-    onQueueUsers: number
-}
-
-const searchApi = new platformClient.SearchApi();
 const usersApi = new platformClient.UsersApi();
 const analyticsApi = new platformClient.AnalyticsApi();
-const tokensApi = new platformClient.TokensApi();
 const routingApi = new platformClient.RoutingApi();
-const presenceApi = new platformClient.PresenceApi();
 
 /* 
  * This presence ID is hardcoded because System presence IDs are hardcoded into Genesys Cloud, can never change, and are not unique to orgs or regions
