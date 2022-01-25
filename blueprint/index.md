@@ -3,7 +3,7 @@ title: Develop an Integration App That Utilizes Partial Transcript Notifications
 author: jacob.shaw
 indextype: blueprint
 icon: blueprint
-image: images/5.png
+image: images/flowchart.png
 category: 6
 summary: |
   This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration.  The sample app is based around an admin dashboard that allows administrators to view the active conversations for the queues in the admin's organization.  The admin is able to view info about each conversation, including its ongoing transcript, the agent assigned to the call, and the "standing" of the call, which is a binary good-or-bad state depending on whether one of the red-listed words is uttered by the agent.  The blueprint will describe the steps needed to develop this app and integrate it into the Genesys Cloud app.
@@ -25,11 +25,11 @@ summary: |
 
 - **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. You deploy the Chat Translator solution in Genesys Cloud.
 - **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry.
-- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI.
+- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. Learn about the integration here: https://help.mypurecloud.com/articles/set-custom-client-application-integration/
 
 ### Software Development Kit (SDK)
 
-- **Platform API Javascript Client** - The sample app employs React+Typescript, thus the javascript SDK is used here. However, the same functionality could be achieved using other languages. Find the [Platform API Javascript Client](https://github.com/MyPureCloud/platform-client-sdk-javascript) here: https://github.com/MyPureCloud/platform-client-sdk-javascript
+- **Platform API Javascript Client** - The sample app employs React+TypeScript, thus the javascript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API Javascript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
 
 ## Requirements
 
@@ -40,7 +40,7 @@ Implementing this solution requires experience in several areas or a willingness
 - Administrator-level knowledge of Genesys Cloud
 - Genesys Cloud Platform API knowledge
 - React knowledge
-- Typescript knowledge
+- TypeScript knowledge
 
 
 ### Genesys Cloud account requirements
@@ -107,7 +107,7 @@ npm run start
 8. Activate the client application
 
 ### Test the Solution
-1. Select a queue that you are a member of. Note that setting up a test queue with only yourself as a member is a quick solution here, since this guarantees that inbound calls to the queue will be assigned to you.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
+1. Select a queue that you are a member of and activated in. Note that setting up a test queue with only yourself as a member is a quick solution here, since this guarantees that inbound calls to the queue will be assigned to you.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
 2. Make sure there is an inbound call flow that is configured to transfer inbound calls to the queue you selected.  See [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/) in the resource center for more.
 ![Inbound Call Flow](images/inbound-call-flow.png)
 3. Make sure there is a call route assigned to the inbound call flow from the previous step. See [Add a call route](https://help.mypurecloud.com/articles/add-a-call-route/) in the resource center for more.
@@ -126,7 +126,7 @@ npm run start
 
 ### Genesys Cloud Utils
 
-The `genesysCloudUtils` file contains the intermediate functions that in turn call Genesys Cloud SDK methods. These functions return promises that are handled upon resolution in the file and in the invoking components themselves.
+The `src/utils/genesysCloudUtils.ts` file contains the intermediate functions that in turn call Genesys Cloud SDK methods. These functions return promises that are handled upon resolution in the file and in the invoking components themselves.
 
 ### Active Conversation Dashboard
 
@@ -150,11 +150,11 @@ If you are creating a new app from scratch, run the following commands in a term
 
 ```bash
 npm install -g npx
-npx create-react-app name-of-your-app --template typescript
+npx create-react-app name-of-your-app --template TypeScript
 ```
 
 If you're configuring an existing React app, it is suggested that you use a version greater than v16.0, since the sample app uses React hooks introduced in React v16.0.
-See the tsconfig.json file in the root directory of this project for a typescript configuration example.
+See the tsconfig.json file in the root directory of this project for a TypeScript configuration example.
 
 ### Installing NPM Packages
 
@@ -188,7 +188,7 @@ const conversationsApi = new platformClient.ConversationsApi();
 
 ## Additional Resources
 
-* [Genesys Cloud Platform SDK - Javascript](https://developer.genesys.cloud/api/rest/client-libraries/javascript/)
+* [Genesys Cloud Platform SDK - Javascript](/api/rest/client-libraries/javascript/)
 * [Github Repository](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git)
 * [Create a New React App](https://reactjs.org/docs/create-a-new-react-app.html)
 

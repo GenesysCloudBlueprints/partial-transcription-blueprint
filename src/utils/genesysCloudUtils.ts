@@ -14,7 +14,6 @@ const analyticsApi = new platformClient.AnalyticsApi();
 const tokensApi = new platformClient.TokensApi();
 const routingApi = new platformClient.RoutingApi();
 const presenceApi = new platformClient.PresenceApi();
-// const conversationsApi = new platformClient.ConversationsApi();
 
 /* 
  * This presence ID is hardcoded because System presence IDs are hardcoded into Genesys Cloud, can never change, and are not unique to orgs or regions
@@ -27,6 +26,11 @@ const { clientId, redirectUri } = clientConfig;
 
 const cache: any = {};
 
+/**
+ * Authenticate the client using Implicit Grant.
+ * 
+ * @returns auth data
+ */
 export function authenticate() {
     return client.loginImplicitGrant(clientId, redirectUri, { state: 'state' })
         .then((data: any) => {
@@ -37,19 +41,12 @@ export function authenticate() {
         });
 }
 
-export function getUserByEmail(email: string) {
-    const body = {
-        pageSize: 25,
-        pageNumber: 1,
-        query: [{
-            type: "TERM",
-            fields: ["email", "name"],
-            value: email
-        }]
-    };
-    return searchApi.postUsersSearch(body);
-}
-
+/**
+ * Get a user by id.
+ * 
+ * @param id the user's id
+ * @returns user search response
+ */
 export function getAgentByUserId(id: string) {
     if (!id) return '';
 
@@ -66,6 +63,12 @@ export function getAgentByUserId(id: string) {
         });
 }
 
+/**
+ * Get the queues in logged-in user's organization.
+ * 
+ * @param skipCache determines whether to check cache before API call
+ * @returns response with queues
+ */ 
 export async function getQueues(skipCache: boolean = false) {
     if (skipCache) {
         return routingApi.getRoutingQueues({ pageSize: 100 });
@@ -81,48 +84,12 @@ export async function getQueues(skipCache: boolean = false) {
     }
 }
 
-export function getUserRoutingStatus(userId: string) {
-    return usersApi.getUserRoutingstatus(userId);
-}
-
-export function logoutUser(userId: string) {
-    return Promise.all([
-        tokensApi.deleteToken(userId),
-        presenceApi.patchUserPresence(userId, 'PURECLOUD', {
-            presenceDefinition: { id: offlinePresenceId }
-        })
-    ])
-}
-
-export async function logoutUsersFromQueue(queueId: string) {
-    routingApi.getRoutingQueueMembers(queueId)
-        .then((data: any) => {
-            return Promise.all(data.entities.map((user: any) => logoutUser(user.id)));
-        })
-        .catch((err: any) => {
-            console.error(err);
-        })
-}
-
-export function getQueueObservations(queues: IQueue[]) {
-    const predicates = queues.map((queue: IQueue) => {
-        return {
-            type: 'dimension',
-            dimension: 'queueId',
-            operator: 'matches',
-            value: queue.id
-        }
-    })
-    const body = {
-        filter: {
-           type: 'or',
-           predicates
-        },
-        metrics: [ 'oOnQueueUsers', 'oActiveUsers' ],
-    }
-    return analyticsApi.postAnalyticsQueuesObservationsQuery(body);
-}
-
+/**
+ * Get active conversations for queue using conversation analytics details query.
+ * 
+ * @param queueId the queue's id
+ * @returns active conversation response
+ */
 export function getActiveConversationsForQueue(queueId: string) {
   const startInterval = moment().add(-1, 'day').startOf('day');
   const endInterval = moment().add(1, 'day'). startOf('day');
@@ -174,55 +141,3 @@ export function getActiveConversationsForQueue(queueId: string) {
       console.error(err);
     });
 }
-
-export async function getUserMe(skipCache: boolean = false) {
-    if (skipCache) {
-        return usersApi.getUsersMe({ 
-            expand: ['routingStatus', 'presence'],
-        });
-    } else if (cache['userMe']){
-        return cache['userMe'];
-    } else {
-        try {
-            cache['userMe'] = await usersApi.getUsersMe({ 
-                expand: ['routingStatus', 'presence'],
-            });
-            return cache['userMe'];
-        } catch (err) {
-            console.error(err)
-        }
-    }
-}
-
-export function getUserDetails(id: string, skipCache: boolean = false) {
-    if (skipCache) {
-        let tempDetails: any = {};
-        return usersApi.getUser(id)
-            .then((userDetailsData: any) => {
-                tempDetails = userDetailsData;
-                return presenceApi.getUserPresence(id, 'purecloud')
-            })
-            .then((userPresenceData: any) => {
-                tempDetails['presence'] = userPresenceData;
-                return tempDetails;
-            })
-            .catch((err: any) => {
-                console.error(err);
-            });
-    } else if (cache['userDetails']){
-        return cache['userDetails'];
-    } else {
-        return usersApi.getUser(id)
-            .then((userDetailsData: any) => {
-                cache['userDetails'] = userDetailsData || {};
-                return presenceApi.getUserPresence(id, 'purecloud')
-            })
-            .then((userPresenceData: any) => {
-                cache['userDetails']['presence'] = userPresenceData;
-                return cache['userDetails']
-            })
-            .catch((err: any) => {
-                console.error(err);
-            });
-    }
-  }

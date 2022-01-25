@@ -9,9 +9,9 @@ interface IAccordionProps {
 }
 
 export interface AccordionData {
-	heading: React.ReactNode;
-	content: React.ReactNode;
-	showExpanded: boolean;
+heading: React.ReactNode;
+content: React.ReactNode;
+showExpanded: boolean;
     sectionClass?: string,
     contentClass?: string
 }
