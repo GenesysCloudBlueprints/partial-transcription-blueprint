@@ -108,10 +108,16 @@ npm run start
 
 ### Test the Solution
 1. Select a queue that you are a member of and activated in. Note that setting up a test queue with only yourself as a member is a quick solution here, since this guarantees that inbound calls to the queue will be assigned to you.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
+** - Make sure that “Voice Transcription” is enabled in both the queue settings and in Speech and Text Analaytics:
+![Transcription Setting Queue](images/transcription-queue.png)
+![Transcription Setting Analytics](images/transcription-speech-and-text)
+
 2. Make sure there is an inbound call flow that is configured to transfer inbound calls to the queue you selected.  See [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/) in the resource center for more.
 ![Inbound Call Flow](images/inbound-call-flow.png)
+
 3. Make sure there is a call route assigned to the inbound call flow from the previous step. See [Add a call route](https://help.mypurecloud.com/articles/add-a-call-route/) in the resource center for more.
 ![Call Route](images/call-route.png)
+
 4. Make sure there is a DID number assigned to the call route from the previous step. See [Manage DID and toll-free number assignments](https://help.mypurecloud.com/articles/manage-did-and-toll-free-number-number-assignments/) in the resource center for more.
 ![DID Assignment](images/did-assignment.png)
 5. Click the slider in the upper right-hand corner of the Genesys Cloud UI to go **On Queue**
