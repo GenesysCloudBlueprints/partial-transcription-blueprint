@@ -1,12 +1,12 @@
 ---
-title: Develop an Integration App That Utilizes Partial Transcript Notifications
+title: Develop an Integration App That Use Partial Transcript Notifications
 author: jacob.shaw
 indextype: blueprint
 icon: blueprint
 image: images/flowchart.png
 category: 6
 summary: |
-  This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration.  The sample app is based around an admin dashboard that allows administrators to view the active conversations for the queues in the admin's organization.  The admin is able to view info about each conversation, including its ongoing transcript, the agent assigned to the call, and the "standing" of the call, which is a binary good-or-bad state depending on whether one of the red-listed words is uttered by the agent.  The blueprint will describe the steps needed to develop this app and integrate it into the Genesys Cloud app.
+  This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending on whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
 ---
 
 ## Contents
@@ -29,7 +29,7 @@ summary: |
 
 ### Software Development Kit (SDK)
 
-- **Platform API Javascript Client** - The sample app employs React+TypeScript, thus the javascript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API Javascript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
+- **Platform API JavaScript Client** - The sample app employs React+TypeScript, thus the javaScript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API JavaScript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
 
 ## Requirements
 
@@ -60,8 +60,8 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 
 ### Create an Implicit Grant OAuth
 
-1. Login to your Genesys Cloud organization and create a new OAuth Credential (Implicit Grant). [Create an OAuth Client](https://help.mypurecloud.com/articles/create-an-oauth-client/)
-2. Add **http://localhost:3000** to the **Authorized redirect URIs**. Note: If you've changed the **redirecUri** value in the config file, then you need to add that new URI instead.
+1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Implicit Grant). [Create an OAuth Client](https://help.mypurecloud.com/articles/create-an-oauth-client/)
+2. Add **http://localhost:3000** to the **Authorized redirect URIs**. Note: If you've changed the **redirecUri** value in the config file, then you must add that new URI instead.
 3. Add the following in the Scopes section:
     * analytics
     * authorization
@@ -73,7 +73,7 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 
 ### Update Configuration File
 
-Modify the values in the configuration file before running the app. Use the values from the OAuth Client your created in the last step as follows:
+Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step as follows:
 
 clientConfig.js:
 
@@ -107,25 +107,25 @@ npm run start
 8. Activate the client application
 
 ### Test the Solution
-1. Select a queue that you are a member of and activated in. Note that setting up a test queue with only yourself as a member is a quick solution here, since this guarantees that inbound calls to the queue will be assigned to you.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
-** - Make sure that “Voice Transcription” is enabled in both the queue settings and in Speech and Text Analaytics:
+1. Select a queue that you are a member of and activated in. Setting up a test queue with only yourself as a member is a quick solution here, since this guarantees you are assigned inbound calls to the queue.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
+** - Make sure that “Voice Transcription” is enabled in both the queue settings and in Speech and Text Analytics:
 ![Transcription Setting Queue](images/transcription-queue.png)
 ![Transcription Setting Analytics](images/transcription-speech-and-text)
 
-2. Make sure there is an inbound call flow that is configured to transfer inbound calls to the queue you selected.  See [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/) in the resource center for more.
+2. Make sure that there is an inbound call flow configured to transfer inbound calls to the queue you selected.  See [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/) in the resource center for more.
 ![Inbound Call Flow](images/inbound-call-flow.png)
 
-3. Make sure there is a call route assigned to the inbound call flow from the previous step. See [Add a call route](https://help.mypurecloud.com/articles/add-a-call-route/) in the resource center for more.
+3. Make sure that there is a call route assigned to the inbound call flow from the previous step. See [Add a call route](https://help.mypurecloud.com/articles/add-a-call-route/) in the resource center for more.
 ![Call Route](images/call-route.png)
 
-4. Make sure there is a DID number assigned to the call route from the previous step. See [Manage DID and toll-free number assignments](https://help.mypurecloud.com/articles/manage-did-and-toll-free-number-number-assignments/) in the resource center for more.
+4. Make sure that there is a DID number assigned to the call route from the previous step. See [Manage DID and toll-free number assignments](https://help.mypurecloud.com/articles/manage-did-and-toll-free-number-number-assignments/) in the resource center for more.
 ![DID Assignment](images/did-assignment.png)
 5. Click the slider in the upper right-hand corner of the Genesys Cloud UI to go **On Queue**
 6. Using a phone, call (or have someone else call) the DID number mentioned above.
-7. Using the dialpad or voice, answer the promps from the IVR flow to navigate to your selected Queue.
+7. Using the dialpad or voice, answer the prompts from the IVR flow to navigate to your selected Queue.
 8. Answer the incoming call in the Genesys Cloud app.
 9. Open the Apps in the side navigation bar.
-10. Open the client application which was set up in previous steps.
+10. Open the client application, which was set up in previous steps.
 11. Find your queue in the **Active Conversation Dashboard** and expand to find your active conversation's listing.
 
 ## Sample App Overview
@@ -140,11 +140,11 @@ This is the top level of the SPA (Single Page Application). This level consists 
 
 ### Queue Listing
 
-Each queue listing consists of an "accordion".  Before expansion, it displays the queue's title and the number of active conversations in the queue.  After being expanded, it displays the conversation listings for the queue. 
+Each queue listing consists of an "accordion."  Before expansion, it displays the queue's title and the number of active conversations in the queue.  After being expanded, it displays the conversation listings for the queue. 
 
 ### Conversation Listing
 
-Like the queue listings, each conversation listing is an "accordion". In this case, expanding the listing shows the conversation start time, the "standing" of the conversation (as defined in the summary of this document), the agent assigned to the conversation, and a live transcript of the conversation.
+Like the queue listings, each conversation listing is an "accordion." In this case, expanding the listing shows the conversation start time, the "standing" of the conversation (as defined in the summary of this document), the agent assigned to the conversation, and a live transcript of the conversation.
 
 ## Configuring the React Project to use Genesys Cloud SDK
 
@@ -152,7 +152,7 @@ Now we'll look at the steps needed to integrate the Genesys Cloud SDK into your 
 
 ### Creating a React Project
 
-If you are creating a new app from scratch, run the following commands in a terminal in the directory of your choice:
+If you are creating an app from scratch, run the following commands in a terminal in the directory of your choice:
 
 ```bash
 npm install -g npx
@@ -162,7 +162,7 @@ npx create-react-app name-of-your-app --template TypeScript
 If you're configuring an existing React app, it is suggested that you use a version greater than v16.0, since the sample app uses React hooks introduced in React v16.0.
 See the tsconfig.json file in the root directory of this project for a TypeScript configuration example.
 
-### Installing NPM Packages
+### Install NPM Packages
 
 1. Install the Genesys Cloud Platform Client:
 
@@ -194,7 +194,7 @@ const conversationsApi = new platformClient.ConversationsApi();
 
 ## Additional Resources
 
-* [Genesys Cloud Platform SDK - Javascript](/api/rest/client-libraries/javascript/)
+* [Genesys Cloud Platform SDK - JavaScript](/api/rest/client-libraries/javascript/)
 * [Github Repository](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git)
 * [Create a New React App](https://reactjs.org/docs/create-a-new-react-app.html)
 
