@@ -1,0 +1,47 @@
+.accordion-section {
+    border: 1pt solid #00c4ff;
+    min-width: 90%;
+    max-width: 95%;
+    background-color: white;
+
+    &:hover {
+        cursor: pointer
+    }
+
+    &--good-standing {
+        border: 1pt solid green;
+        box-shadow: 0 0 10px green;
+    }
+    
+    &--bad-standing { 
+        border: 1pt solid red;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+    
+        &-left {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin-right: 16px;
+        }
+    
+        &-right {
+            width: 20%;
+        }
+    }
+
+    .content {
+        background-color: #effcff;
+        padding: 0 16px;
+        display: flex;
+        justify-content: center;
+
+        &--conversation {
+            background-color: #dfdfdf;
+        }
+    }
+}
