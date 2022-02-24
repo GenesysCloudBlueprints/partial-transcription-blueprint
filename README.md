@@ -1,4 +1,4 @@
-# Develop an Integration App That Utilizes Partial Transcript Notifications
+# Develop an Integration App That Utilizes Partial Transcript Notifications. (DRAFT)
 
 ![Partial Transcript App Flowchart](blueprint/images/flowchart.png)
 
