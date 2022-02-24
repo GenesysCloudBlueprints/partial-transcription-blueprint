@@ -1,12 +1,11 @@
 ---
-title: Develop an Integration App that use Partial Transcript Notifications
+title: Develop an Integration App that s Partial Transcript Notifications
 author: jacob.shaw
 indextype: blueprint
 icon: blueprint
 image: images/flowchart.png
 category: 6
-summary: |
-  This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending on whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
+summary: This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending on whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
 ---
 
 ## Contents
@@ -18,18 +17,26 @@ summary: |
 * [Configuring the React Project to use Genesys Cloud SDK](#configuring-the-react-project-to-use-genesys-cloud-sdk "How to integrate the Genesys Cloud SDK")
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
-
 ![Partial Transcript App Flowchart](images/flowchart.png)
 
 ## Solution components
 
 - **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. You deploy the Chat Translator solution in Genesys Cloud.
 - **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry.
-- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. Learn about the integration here: https://help.mypurecloud.com/articles/set-custom-client-application-integration/
+- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. For more information, see: [Set up a Client Application integration](https://help.mypurecloud.com/?p=131851 "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
+
+## Prerequisites
+
+### Specialized knowledge
+
+* Experience with Typescript or JavaScript
+* Administrator-level knowledge of Genesys Cloud
+
 
 ### Software development kit (SDK)
 
 - **Platform API JavaScript Client** - The sample app employs React+TypeScript, thus the javaScript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API JavaScript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
+- **Genesys Cloud Client App SDK** - A JavaScript library used to integrate third-party web-based applications with Genesys Cloud. Handles app and UI-level integrations such as navigation, alerting, attention, and lifecycle management.
 
 ## Requirements
 
@@ -148,7 +155,7 @@ Like the queue listings, each conversation listing is an "accordion." In this ca
 
 ## Configure the React Project to use Genesys Cloud SDK
 
-Now we'll look at the steps needed to integrate the Genesys Cloud SDK into your own React app.
+Now we view the steps needed to integrate the Genesys Cloud SDK into your own React app.
 
 ### Creating a React Project
 
@@ -195,6 +202,6 @@ const conversationsApi = new platformClient.ConversationsApi();
 ## Additional resources
 
 * [Genesys Cloud Platform SDK - JavaScript](/api/rest/client-libraries/javascript/)
-* [Github Repository](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git)
+* [GitHub Repository](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git)
 * [Create a New React App](https://reactjs.org/docs/create-a-new-react-app.html)
 
