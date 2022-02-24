@@ -1,5 +1,5 @@
 ---
-title: Develop an Integration App That Use Partial Transcript Notifications
+title: Develop an Integration App that use Partial Transcript Notifications
 author: jacob.shaw
 indextype: blueprint
 icon: blueprint
@@ -21,13 +21,13 @@ summary: |
 
 ![Partial Transcript App Flowchart](images/flowchart.png)
 
-## Solution Components
+## Solution components
 
 - **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. You deploy the Chat Translator solution in Genesys Cloud.
 - **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry.
 - **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. Learn about the integration here: https://help.mypurecloud.com/articles/set-custom-client-application-integration/
 
-### Software Development Kit (SDK)
+### Software development kit (SDK)
 
 - **Platform API JavaScript Client** - The sample app employs React+TypeScript, thus the javaScript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API JavaScript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
 
@@ -49,9 +49,9 @@ This solution requires a Genesys Cloud license. For more information on licensin
 
 A recommended Genesys Cloud role for the solutions engineer is Master Admin. For more information on Genesys Cloud roles and permissions, see the [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Opens the Roles and permissions overview article").
 
-## Running Locally
+## Running locally
 
-### Download the repository containing the project files
+### Download the repository that contain the project files
 Go to the [Partial Transcription Blueprint](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint) repository and clone it to your machine.
 
 ```bash
@@ -71,7 +71,7 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
     * users
 4. Save the Client ID for use in the configuration of the project.
 
-### Update Configuration File
+### Update configuration file
 
 Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step as follows:
 
@@ -84,7 +84,7 @@ export const clientConfig = {
 };
 ```
 
-### Run the App
+### Run the app
 
 Open a terminal and set the working directory to the root directory of the project, then run the following:
 
@@ -106,7 +106,7 @@ npm run start
 ![Client Application Integration Config](images/integration-config.png)
 8. Activate the client application
 
-### Test the Solution
+### Test the solution
 1. Select a queue that you are a member of and activated in. Setting up a test queue with only yourself as a member is a quick solution here, since this guarantees you are assigned inbound calls to the queue.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
 ** - Make sure that “Voice Transcription” is enabled in both the queue settings and in Speech and Text Analytics:
 ![Transcription Setting Queue](images/transcription-queue.png)
@@ -128,25 +128,25 @@ npm run start
 10. Open the client application, which was set up in previous steps.
 11. Find your queue in the **Active Conversation Dashboard** and expand to find your active conversation's listing.
 
-## Sample App Overview
+## Sample app overview
 
 ### Genesys Cloud Utils
 
 The `src/utils/genesysCloudUtils.ts` file contains the intermediate functions that in turn call Genesys Cloud SDK methods. These functions return promises that are handled upon resolution in the file and in the invoking components themselves.
 
-### Active Conversation Dashboard
+### Active conversation dashboard
 
 This is the top level of the SPA (Single Page Application). This level consists of tile, description, and a list of the queues in the organization of the logged-in user.
 
-### Queue Listing
+### Queue listing
 
 Each queue listing consists of an "accordion."  Before expansion, it displays the queue's title and the number of active conversations in the queue.  After being expanded, it displays the conversation listings for the queue. 
 
-### Conversation Listing
+### Conversation listing
 
 Like the queue listings, each conversation listing is an "accordion." In this case, expanding the listing shows the conversation start time, the "standing" of the conversation (as defined in the summary of this document), the agent assigned to the conversation, and a live transcript of the conversation.
 
-## Configuring the React Project to use Genesys Cloud SDK
+## Configure the React Project to use Genesys Cloud SDK
 
 Now we'll look at the steps needed to integrate the Genesys Cloud SDK into your own React app.
 
@@ -162,7 +162,7 @@ npx create-react-app name-of-your-app --template TypeScript
 If you're configuring an existing React app, it is suggested that you use a version greater than v16.0, since the sample app uses React hooks introduced in React v16.0.
 See the tsconfig.json file in the root directory of this project for a TypeScript configuration example.
 
-### Install NPM Packages
+### Install NPM packages
 
 1. Install the Genesys Cloud Platform Client:
 
@@ -170,7 +170,7 @@ See the tsconfig.json file in the root directory of this project for a TypeScrip
     npm install purecloud-platform-client-v2
     ```
 
-### Import the platform-client-sdk to your Project
+### Import the platform-client-sdk to your project
 
 Use the following to import the platform-client-sdk:
 
@@ -192,7 +192,7 @@ const presenceApi = new platformClient.PresenceApi();
 const conversationsApi = new platformClient.ConversationsApi();
 ```
 
-## Additional Resources
+## Additional resources
 
 * [Genesys Cloud Platform SDK - JavaScript](/api/rest/client-libraries/javascript/)
 * [Github Repository](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git)
