@@ -1,6 +1,6 @@
 # Develop an Integration App That Utilizes Partial Transcript Notifications
 
-![Partial Transcript App Flowchart](blueprint/images/flowchart.png)
+![Partial Transcript App Flowchart](blueprint/images/flowchart.svg)
 
 ## Description
 
