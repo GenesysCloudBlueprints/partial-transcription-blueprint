@@ -5,7 +5,7 @@ indextype: blueprint
 icon: blueprint
 image: images/flowchart.png
 category: 6
-summary: This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending on whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
+summary: This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
 ---
 
 ## Contents
@@ -14,7 +14,7 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 * [Requirements](#requirements "Goes to the Requirements section")
 * [Running Locally](#running-locally "Goes to the Running Locally section")
 * [Sample App Overview](#sample-app-overview "Overview of the sample app's features")
-* [Configuring the React Project to use Genesys Cloud SDK](#configuring-the-react-project-to-use-genesys-cloud-sdk "How to integrate the Genesys Cloud SDK")
+* [Configuring the React Project to use Genesys Cloud SDK](https://developer.genesys.cloud/blueprints/react-app-with-genesys-cloud-sdk/#create-a-react-project "How to integrate the Genesys Cloud SDK")
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
 ![Partial Transcript App Flowchart](images/flowchart.png)
@@ -35,14 +35,14 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 
 ### Software development kit (SDK)
 
-- **Platform API JavaScript Client** - The sample app employs React+TypeScript, thus the javaScript SDK is used here. However, the same functionality could be achieved using other languages. Find the Platform API JavaScript Client here: https://github.com/MyPureCloud/platform-client-sdk-javascript
+- **Platform API JavaScript Client** - The sample app employs React+TypeScript, thus the javaScript SDK is used. However, the same functionality could be achieved using other languages. For more information, see: [Platform API Javascript Client](https://developer.genesys.cloud/api/rest/client-libraries/javascript/ "Goes to Platform API Javascript Client page") in the Genesys Cloud Developer Center.
 - **Genesys Cloud Client App SDK** - A JavaScript library used to integrate third-party web-based applications with Genesys Cloud. Handles app and UI-level integrations such as navigation, alerting, attention, and lifecycle management.
 
 ## Requirements
 
 ### Specialized knowledge
 
-Implementing this solution requires experience in several areas or a willingness to learn:
+This solution requires implementation experience in several areas or a willingness to learn:
 
 - Administrator-level knowledge of Genesys Cloud
 - Genesys Cloud Platform API knowledge
@@ -52,14 +52,14 @@ Implementing this solution requires experience in several areas or a willingness
 
 ### Genesys Cloud account requirements
 
-This solution requires a Genesys Cloud license. For more information on licensing, see [Genesys Cloud Pricing](https://www.genesys.com/pricing "Opens the pricing article").
+This solution requires a Genesys Cloud license. For more information, see: [Genesys Cloud Pricing](https://www.genesys.com/pricing "Goes to Pick the Perfect Plan for your Business page").
 
-A recommended Genesys Cloud role for the solutions engineer is Master Admin. For more information on Genesys Cloud roles and permissions, see the [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Opens the Roles and permissions overview article").
+A recommended Genesys Cloud role for the solutions engineer is the Master Admin. For more information, see: [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Goes to Roles and permissions overview article") in the Genesys Cloud Developer Center.
 
 ## Running locally
 
 ### Download the repository that contain the project files
-Go to the [Partial Transcription Blueprint](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint) repository and clone it to your machine.
+For more information, see:  [Partial Transcription Blueprint](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint "Goes to Partial Transcription Blueprint") in the GitHub repository. Go to the repository and clone it to your machine.
 
 ```bash
 git clone https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git
