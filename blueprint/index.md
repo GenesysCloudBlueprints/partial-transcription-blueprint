@@ -19,7 +19,7 @@ summary: |
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
 
-![Partial Transcript App Flowchart](images/flowchart.png)
+![Partial Transcript App Flowchart](images/flowchart.svg)
 
 ## Solution Components
 
