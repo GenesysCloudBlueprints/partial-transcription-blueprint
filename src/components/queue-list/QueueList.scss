@@ -1,0 +1,71 @@
+.queue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: baseline;
+  width: 100%;
+
+  .standing-header {
+    &--good {
+      color: green;
+    }
+    &--bad {
+      color: red;
+    }
+  }
+
+  .conversations-container {
+    padding: 0 0 16px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .agent-name-title {
+      font-size: 12pt;
+    }
+
+    .start-title {
+      font-size: 10pt;
+    }
+  }
+
+  .queue-title {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 1rem;
+    background: #effcff;
+    width: 100vw;
+    border-bottom: 1pt solid #00c4ff;
+
+    >span {
+      padding: 10px;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 28px;
+      background: url("../../favico.png");
+      background-position: 11%;
+
+      >span {
+        padding: 12px;
+        background: white;
+        border: 1pt solid #00c4ff;
+        font-family: sans-serif;
+      }
+    }
+
+    p {
+      padding: 0 4px;
+      color: black;
+    }
+  }
+
+  .active-header {
+    color: rgb(255, 145, 0);
+  }
+
+  .inactive-header {
+    color: grey;
+  }
+
+}

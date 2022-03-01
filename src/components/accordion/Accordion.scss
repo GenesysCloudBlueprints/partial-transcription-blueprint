@@ -1,0 +1,17 @@
+.accordion {
+    width: 90%;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+
+    .section-wrapper {
+        margin: 16px 0 0 40px;
+    }
+}
+
+.outer-accordion {
+    background: #ededed;
+}
+
+.inner-accordion { 
+    margin-left: 0 !important;
+}

@@ -1,0 +1,104 @@
+.conversation {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 16px 0;
+    width: 100%;
+
+    .status-container {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        padding-right: 30px;
+        margin-right: 8px;
+
+        .standing-header {
+            font-weight: 500;
+            padding-bottom: 4px;
+        }
+
+        .status-lower {
+            background-color: #ededed;
+            width: 130%;
+            height: 78%;
+            padding: 4px;
+    
+            .status-group {
+
+                &-top {
+                    padding: 8px 0 4px 0;
+                }
+    
+                &-bottom {
+                    padding: 4px 0 8px 0;
+                }
+            }
+    
+            .status-title {
+                font-weight: 540;
+                padding-top: 8px;
+                text-decoration: underline;
+                text-align: left;
+            }
+    
+            .status-name {
+                text-align: left;
+            }
+    
+            .agent-image {
+                background:rgb(255, 255, 255);
+                border-radius: 50%;
+                overflow: hidden;
+                position: relative;
+                margin-top: 8px;
+                width: 90%;
+                height: 40%;
+    
+                >img {
+                    position: absolute;
+                    left: -8px;
+                }
+            }
+        }
+
+    }
+
+    .transcript-wrapper {
+        height: 250;
+        width: 70%;
+
+        h5 {
+            height: 1%;
+            margin-top: 0;
+        }
+
+        .transcript-container {
+            background-color: white;
+            width: 100%;
+            height: 240px;
+            border: 1pt solid black;
+            text-align: left;
+            overflow: auto;
+            
+            .interaction {
+                border-bottom: 1pt solid rgb(207, 207, 207);
+                padding: 8px;
+                width: 90%;
+                margin-left: 5px;
+            }
+        }
+    
+    }
+
+    .speaker {
+        font-weight: 500;
+        font-size: 12px;
+        padding-bottom: 5px;
+    }
+
+    .interaction-time {
+        font-size: 10pt;
+        color: grey;
+        padding-bottom: 5px;
+    }
+}
