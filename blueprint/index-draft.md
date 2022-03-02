@@ -17,6 +17,7 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 * [Configuring the React Project to use Genesys Cloud SDK](https://developer.genesys.cloud/blueprints/react-app-with-genesys-cloud-sdk/#create-a-react-project "How to integrate the Genesys Cloud SDK")
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
+
 ![Partial Transcript App Flowchart](images/flowchart.png)
 
 ## Solution components
@@ -69,7 +70,7 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Implicit Grant). [Create an OAuth Client](https://help.mypurecloud.com/?p=188023 "Goes to Create an OAuth client page") in the Genesys Cloud Resource Center.
 2. Add **http://localhost:3000** to the **Authorized redirect URIs**.
 
-**Note**: If the **redirecUri** value  has changed in the config file, you must add the new URI.
+**Note**: If the **redirectUri** value  has changed in the config file, you must add the new URI.
 
 3. Add the following in the Scopes section:
     * analytics
@@ -125,8 +126,8 @@ npm run start
 ** - Make sure that “Voice Transcription” is enabled in both queue settings, Speech, and Text Analytics:
 
 ![Transcription Setting Queue](images/transcription-queue.png)
+![Transcription Setting Analytics](images/transcription-speech-and-text.png)
 
-![Transcription Setting Analytics](images/transcription-speech-and-text)
 
 2. Ensure there is an inbound call flow configured to transfer inbound calls to the selected queue. For more information, see: [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/ "Goes to the Work with inbound flows") in the Genesys Cloud Resource Center.
 
