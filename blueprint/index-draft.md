@@ -17,7 +17,7 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 * [Configuring the React Project to use Genesys Cloud SDK](https://developer.genesys.cloud/blueprints/react-app-with-genesys-cloud-sdk/#create-a-react-project "How to integrate the Genesys Cloud SDK")
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
-![Partial Transcript app flowchart](images/flowchart.png)
+![Partial Transcript App flowchart](images/flowchart.png)
 
 ## Solution components
 
@@ -102,7 +102,7 @@ npm install
 npm run start
 ```
 
-### Install and activate the client application in Genesys Cloud
+### Install and activate the Client Application in Genesys Cloud
 
 1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.mypurecloud.com/articles/add-an-integration/ "Goes to Add an integration page") in the Genesys Cloud Resource Center.
 2. Install the **Client Application** integration. For more information, see [Set up a Client Application integration](https://help.mypurecloud.com/articles/set-custom-client-application-integration/ "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
@@ -118,7 +118,7 @@ npm run start
 
 ![Client Application Integration Config](images/integration-config.png)
 
-8. Activate the client application
+8. Activate the Client Application
 
 ### Test the solution
 1. Set up a test queue with only you as a member since this guarantees you are assigned inbound calls to the queue. For more information, see: [Create and configure queues](https://help.mypurecloud.com/?p=18650 "Goes to the Create and configure queues page") in the Genesys Cloud Resource Center.
@@ -145,7 +145,7 @@ npm run start
 7. Use the dial pad or voice to answer the prompts from the IVR flow to navigate to your selected Queue.
 8. Answer the incoming call in the Genesys Cloud app.
 9. Open the Apps in the side navigation bar.
-10. Open the client application set up in the previous steps.
+10. Open the client Application set up in the previous steps.
 11. Find your queue in the **Active Conversation Dashboard** and expand the list to find your active conversations.
 
 ## Sample app overview
