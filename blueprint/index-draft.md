@@ -5,8 +5,14 @@ indextype: blueprint
 icon: blueprint
 image: images/flowchart.png
 category: 6
-summary: This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
+summary: This Genesys Cloud Developer Blueprint demonstrates an example of how Partial Transcript notifications can be used in the event of a Genesys Cloud Integration.
 ---
+
+![Partial Transcript App flowchart](blueprint/images/flowchart.png "Partial Transcript App flowchart")
+
+## Scenario
+
+The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
 
 ## Contents
 
@@ -16,9 +22,6 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 * [Sample app overview](#sample-app-overview "Overview of the sample app's features")
 * [Configuring the React Project to use Genesys Cloud SDK](https://developer.genesys.cloud/blueprints/react-app-with-genesys-cloud-sdk/#create-a-react-project "How to integrate the Genesys Cloud SDK")
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
-
-
-![Partial Transcript App Flowchart](images/flowchart.png)
 
 ## Solution components
 
@@ -93,7 +96,6 @@ export const clientConfig = {
   REDIRECT_URI: '<YOUR PRODUCTION URI HERE>',
 };
 ```
-
 ### Run the app
 
 Open a terminal and set the working directory to the root directory of the project, then run the following:
@@ -179,7 +181,6 @@ If you are creating an app from scratch, run the following commands in a termina
 npm install -g npx
 npx create-react-app name-of-your-app --template TypeScript
 ```
-
 If you configure an existing React app, you should use a version greater than v16.0 since the sample app uses React hooks introduced in React v16.0. See the tsconfig.json file in the root directory of this project for a TypeScript configuration example.
 
 ### Install NPM packages
