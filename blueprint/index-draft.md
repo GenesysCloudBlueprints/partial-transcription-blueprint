@@ -3,7 +3,7 @@ title: Develop an Integration App That Utilizes Partial Transcript Notifications
 author: jacob.shaw
 indextype: blueprint
 icon: blueprint
-image: images/flowchart.png
+image: images/flowchart.svg
 category: 6
 summary: |
   This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration.  The sample app is based around an admin dashboard that allows administrators to view the active conversations for the queues in the admin's organization.  The admin is able to view info about each conversation, including its ongoing transcript, the agent assigned to the call, and the "standing" of the call, which is a binary good-or-bad state depending on whether one of the red-listed words is uttered by the agent.  The blueprint will describe the steps needed to develop this app and integrate it into the Genesys Cloud app.
@@ -19,7 +19,7 @@ summary: |
 * [Additional resources](#additional-resources "Goes to the Additional resources section")
 
 
-![Partial Transcript App Flowchart](images/flowchart.png)
+![Partial Transcript App Flowchart](images/flowchart.svg)
 
 ## Solution Components
 
@@ -110,7 +110,7 @@ npm run start
 1. Select a queue that you are a member of and activated in. Note that setting up a test queue with only yourself as a member is a quick solution here, since this guarantees that inbound calls to the queue will be assigned to you.  See [Create and configure queues](https://help.mypurecloud.com/articles/create-queues/) in the Genesys Cloud Resource Center for more.
 ** - Make sure that “Voice Transcription” is enabled in both the queue settings and in Speech and Text Analaytics:
 ![Transcription Setting Queue](images/transcription-queue.png)
-![Transcription Setting Analytics](images/transcription-speech-and-text)
+![Transcription Setting Analytics](images/transcription-speech-and-text.png)
 
 2. Make sure there is an inbound call flow that is configured to transfer inbound calls to the queue you selected.  See [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/) in the resource center for more.
 ![Inbound Call Flow](images/inbound-call-flow.png)
