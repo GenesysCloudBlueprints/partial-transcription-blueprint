@@ -8,7 +8,8 @@ category: 6
 summary: This Genesys Cloud Developer Blueprint demonstrates an example of how Partial Transcript notifications can be used in the event of a Genesys Cloud Integration.
 ---
 
-![Partial Transcript App flowchart](blueprint/images/flowchart.png "Partial Transcript App flowchart")
+![Partial Transcript App flowchart](images/flowchart.png "Partial Transcript App flowchart")
+
 
 ## Scenario
 
