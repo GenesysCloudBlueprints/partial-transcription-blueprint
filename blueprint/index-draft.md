@@ -10,12 +10,26 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how P
 
 ![Partial Transcript App flowchart](images/flowchart.png "Partial Transcript App flowchart")
 
-
 ## Scenario
 
-The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
+QUESTION FOR JACOB-TO DISCUSS MONDAY: What is the ideal business scenario? Here are two possible examples. Which would be best?
+
+To ensure agents are maintaining a professional tone, a contact center admin wants to quickly scan call transcripts in real-time and monitor calls where specific phrases are uttered.
+
+A new product has recently shipped, but there is a manufacturing flaw that is resulting in dissatisfied customers. A contact center admin wants to quickly scan call transcripts in real-time and monitor calls where the new product is being discussed in order to provide updated information about warranty work.
+
+## Solution
+
+The sample app included in this blueprint solution is admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state that is based on whether the agent uttered one of the red-listed words.
+
+The blueprint describes the required steps to develop and integrate this sample app into Genesys Cloud.
+
+QUESTION: Does the sample app appear in the Genesys Cloud app? Or does it run standalone? Can we get a screenshot? 
+Where are the red-listed words defined? Can you show me?
 
 ## Contents
+
+TONI: You need to update this TOC: Requirements should be Prerequisites, Sample app overview alt text is wrong, Missing the section Configure the React project to use Genesys Cloud SDK
 
 * [Solution components](#solution-components "Goes to the Solutions components section")
 * [Requirements](#requirements "Goes to the Requirements section")
@@ -27,12 +41,17 @@ The sample app is about an admin dashboard that allows administrators to view ac
 ## Solution components
 
 - **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. You deploy the Chat Translator solution in Genesys Cloud.
-- **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry.
+TONI: Update the second sentence to address this blueprint -- this is not the Chat Translator blueprint.
+- **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry. 
 - **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. For more information, see: [Set up a Client Application integration](https://help.mypurecloud.com/?p=131851 "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
+TONI: Update this link to point to the About Client Application integrations article.
+TONI: Do a global check and correct all cross references to use our standard cross-reference formatting. We do not use a colon.
 
 ## Prerequisites
 
 ### Specialized knowledge
+
+TONI: Put Admin-level knowledge of Genesys Cloud first
 
 * Experience with Typescript or JavaScript
 * Administrator-level knowledge of Genesys Cloud
@@ -40,12 +59,16 @@ The sample app is about an admin dashboard that allows administrators to view ac
 
 ### Software development kit (SDK)
 
-- **Platform API JavaScript Client** - The sample app employs React+TypeScript; thus, the javaScript SDK is used. However, the same functionality could be achieved using other languages. For more information, see: [Platform API Javascript Client](https://developer.genesys.cloud/api/rest/client-libraries/javascript/ "Goes to Platform API Javascript Client page") in the Genesys Cloud Developer Center.
+- **Genesys Clioud Platform API JavaScript Client** - The sample app uses React with TypeScript, so the javaScript SDK is used. However, you achieve the same functionality with other languages. For more information, see: [Platform API Javascript Client](https://developer.genesys.cloud/api/rest/client-libraries/javascript/ "Goes to Platform API Javascript Client page").
 - **Genesys Cloud Client App SDK** - A JavaScript library used to integrate third-party web-based applications with Genesys Cloud. Handles app and UI-level integrations such as navigation, alerting, attention, and lifecycle management.
 
 ## Requirements
 
+TONI: The latest template uses "Prerequisites" instead of Requirements. Please update this heading. Download the latest template from from the Blueprint standards. Work with John on the best way to socialize this to the people actively working on blueprints now.
+
 ### Specialized knowledge
+
+TONI: Remove the intro sentence (line 72 for me). Then update these descriptions based on the approved versions in our library. (All except the Genesys Cloud one are incorrect.)
 
 This solution requires implementation experience in several areas or a willingness to learn:
 
@@ -63,11 +86,14 @@ A recommended Genesys Cloud role for the solutions engineer is the Master Admin.
 ## Running locally
 
 ### Download the repository that contains the project files
-For more information, see: [Partial Transcription Blueprint](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint "Goes to Partial Transcription Blueprint page") in the GitHub repository.
+
+TONI: Do a global check to add a blank line before and after every heading
 
 ```bash
 git clone https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git
 ```
+
+For more information, see: [Partial Transcription Blueprint](https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint "Goes to Partial Transcription Blueprint page") in the GitHub repository.
 
 ### Create an Implicit Grant OAuth
 
@@ -75,6 +101,8 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 2. Add **http://localhost:3000** to the **Authorized redirect URIs**.
 
 **Note**: If the **redirectUri** value  has changed in the config file, you must add the new URI.
+
+TONI: Do a global check to remove unnecessary spaces (see above between "value" and "has").
 
 3. Add the following in the Scopes section:
     * analytics
@@ -87,7 +115,7 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 
 ### Update configuration file
 
-Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step as follows:
+Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step:
 
 clientConfig.js:
 
@@ -122,7 +150,7 @@ npm run start
 
 ![Client Application Integration Config](images/integration-config.png)
 
-8. Activate the Client Application
+8. Activate the Client Application integration
 
 ### Test the solution
 1. Set up a test queue with only you as a member since this guarantees you are assigned inbound calls to the queue. For more information, see: [Create and configure queues](https://help.mypurecloud.com/?p=18650 "Goes to the Create and configure queues page") in the Genesys Cloud Resource Center.
@@ -154,17 +182,25 @@ npm run start
 
 ## Sample app overview
 
+TONI: Add a screenshot of the main page here? Please see https://developer.genesys.cloud/blueprints/angular-app-with-genesys-cloud-sdk/ for an example of how to handle this and the subsequent sections in this blueprint.
+
 ### Genesys Cloud Utils
 
 The `src/utils/genesysCloudUtils.ts` file contains the intermediate functions that call Genesys Cloud SDK methods. These functions return promises that are handled upon resolution in the file and the invoking components themselves.
 
 ### Active conversation dashboard
 
+TONI: Rewrite from the user's perspective. "View the active conversations"
+
 This is the top level of the SPA (Single Page Application). The top-level consists of a tile, description, and a list of the queues in the logged-in user's organization.
 
 ### Queue listing
 
+TONI: Rewrite from the user's perspective. "View the list of queues"
+
 Each queue listing consists of an "accordion."  Before the expansion, it displays the title and the number of active conversations in the queue.  After the expansion, it displays the conversation listings for the queue.
+
+TONI: Rewrite. "To see details, expand the the section" ("Sccordian" isn't a user-friendly term)
 
 ### Conversation listing
 
@@ -174,7 +210,11 @@ Each conversation listing is an "accordion." In this case, expanding the listing
 
 Listed are the required steps to integrate the Genesys Cloud SDK into your own React app.
 
+TONI: Rewrite. "To integrate the Genesys Cloud SDK into your own React app, complete the following steps."
+
 ### Creating a React project
+
+TONI: Avoid gerunds. "Create a React project"
 
 If you are creating an app from scratch, run the following commands in a terminal in the directory of your choice:
 
