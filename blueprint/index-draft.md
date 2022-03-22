@@ -20,7 +20,11 @@ A new product has recently shipped, but there is a manufacturing flaw that is re
 
 ## Solution
 
-The sample app included in this blueprint solution is admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state that is based on whether the agent uttered one of the red-listed words.
+The sample app included in this blueprint solution is an admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state based on whether the agent said one of the blacklisted phrases.  These phrases are defined within `src/components/queue-list/QueueList.tsx` and can be replaced with the phrases of your choosing.
+
+A word of warning: if your organization contains a large number of queues, you main encounter rate limits when subscribing to the conversations for each queue. This will lengthen the initialization time for the application. In this case, it is better to design your solution as a standalone app rather than an embedded client app.  This will allow you to run the app persistently in the background, avoiding the longer initialization time caused by the rate limits when navigating to the embbeded client app.
+
+![Blacklisted phrases](images/blacklisted-phrases.png "Blacklisted phrases")
 
 The blueprint describes the required steps to develop and integrate this sample app into Genesys Cloud.
 
@@ -184,6 +188,8 @@ npm run start
 
 TONI: Add a screenshot of the main page here? Please see https://developer.genesys.cloud/blueprints/angular-app-with-genesys-cloud-sdk/ for an example of how to handle this and the subsequent sections in this blueprint.
 
+![Active conversation dashboard](images/embedded-app-title.png "Active conversation dashboard")
+
 ### Genesys Cloud Utils
 
 The `src/utils/genesysCloudUtils.ts` file contains the intermediate functions that call Genesys Cloud SDK methods. These functions return promises that are handled upon resolution in the file and the invoking components themselves.
@@ -204,11 +210,13 @@ TONI: Rewrite. "To see details, expand the the section" ("Sccordian" isn't a use
 
 ### Conversation listing
 
+![Conversation listing](images/embedded-app-in-action.png "Conversation listing")
+
 Each conversation listing is an "accordion." In this case, expanding the listing shows the conversation start time, the "standing" of the conversation (as defined in the summary of this document), the agent assigned to the conversation, and a live transcript.
 
 ## Configure the React project to use Genesys Cloud SDK
 
-Listed are the required steps to integrate the Genesys Cloud SDK into your own React app.
+Listed are the required steps to integrate the Genesys Cloud SDK into your own React app. 
 
 TONI: Rewrite. "To integrate the Genesys Cloud SDK into your own React app, complete the following steps."
 

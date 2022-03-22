@@ -65,7 +65,11 @@ export function addSubscription(topic: string, callback: any) {
     return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
        .then((data: ISubscriptionResponse) => {
            subscriptionMap[topic] = callback;
-           console.log(`Added subscription to ${topic}`);
+           console.log(`Added subscription to ${topic}`, data);
+        })
+        .catch((err: any) => {
+            console.error('Error adding subscription', err);
+            return err;
        });
 }
 
@@ -80,6 +84,6 @@ export async function removeSubscription(topic: string, callback: any) {
     return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
        .then((data: ISubscriptionResponse) => {
            subscriptionMap[topic] = callback;
-           console.log(`Added subscription to ${topic}`);
+           console.log(`Removed subscription to ${topic}`);
        });
 }

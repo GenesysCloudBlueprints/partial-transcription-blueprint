@@ -150,7 +150,8 @@ export enum Standing {
 export function QueueList(props: any) {
 
   let closedConversationIds: string[] = [];
-  const badWords = ['bad word'];
+  let retryAfter: number = 0;
+  const blacklistedPhrases: string[] = ['bad word']; // Replace this with the phrases you want to blacklist
 
   const [queues, setQueues] = useState<Queue[]>([]);
 
@@ -163,7 +164,6 @@ export function QueueList(props: any) {
    * Initializes the data and subscriptions for the Active Conversations Dashboard
    */
   async function setupQueues() {
-    let userId: string;
     let tempQueues: Queue[];
     // authenticate logged-in user
     await authenticate()
@@ -244,14 +244,32 @@ export function QueueList(props: any) {
    * @param queueId id of the matching queue
    */
   async function subscribeToQueueConversations(baseQueues: Queue[], matchingQueue: Queue, queueId: string) {
-    const queueConversationTopic = `v2.routing.queues.${queueId}.conversations.calls`
+    const queueConversationTopic: string = `v2.routing.queues.${queueId}.conversations.calls`;
 
     // the callback fired when subscription notifications are received
     const queueConversationCallback = async (data: QueueConversationEvent) => {
       console.log('QUEUE CONVERSATION DATA', data);
       const { eventBody } = data;
 
-      if (!matchingQueue || closedConversationIds.find((cid: string) => cid === data.eventBody.id)) return;      
+      if (!matchingQueue || closedConversationIds.find((cid: string) => cid === eventBody.id)) return;
+      
+      const terminatedParticipantsLength = eventBody.participants?.filter((p: Participant) => p.state?.toLowerCase() === 'terminated' || p.state?.toLowerCase() === 'disconnected')?.length || 0;
+      const participantsLength = eventBody.participants?.length || 0;
+    
+      // If the call is disconnected, remove the subscription
+      if (participantsLength && terminatedParticipantsLength === participantsLength) {
+        cancelSubscription(queueConversationTopic);
+        closedConversationIds.push(eventBody.id);
+        const newQueues: Queue[] = baseQueues.map((queue: Queue) => {
+          return {
+            ...queue,
+            conversationIds: queue.conversationIds?.filter((cId: string) => cId !== eventBody.id),
+            conversations: queue.conversations?.filter((c: IConversation) => c.conversationId !== eventBody.id)
+          }
+        });
+        setQueues(newQueues);
+        return;
+      }    
 
       const conversationAlreadyPresent = matchingQueue.conversationIds?.length > 0 
         && matchingQueue.conversationIds.some((cId: string) => cId === data.eventBody.id);
@@ -296,7 +314,33 @@ export function QueueList(props: any) {
     // subscribe to transcripts of initial conversations
     matchingQueue.conversationIds?.forEach((cId: string) => subscribeToTranscript(baseQueues, cId));
     // subscribe to the queue's conversations
-    addSubscription(queueConversationTopic, queueConversationCallback);
+    addSubscriptionWrapper(queueConversationTopic, queueConversationCallback);
+  }
+
+  /**
+   * Adds subscriptions and handles exponential backoff if a 429 error code is received
+   * 
+   * @param topic the topic for subscription
+   * @param cb callback for when notifications are received
+   */
+  async function addSubscriptionWrapper(topic: string, cb: any) {
+    if (retryAfter > 0) {
+      const timeout = retryAfter * 1000;
+      setTimeout(() => {
+        retryAfter = 0;
+        addSubscriptionWrapper(topic, cb);
+      }, timeout);
+    } else {
+      const err = await addSubscription(topic, cb);
+      if (err && err.status === 429) {
+        retryAfter = err.headers['retry-after'];
+        const timeout = retryAfter * 1000;
+        setTimeout(() => {
+          retryAfter = 0;
+          addSubscriptionWrapper(topic, cb);
+        }, timeout);
+      }
+    }
   }
 
   /**
@@ -343,7 +387,7 @@ export function QueueList(props: any) {
       // determine whether the agent spoke a word that puts the conversation in bad standing
       const agentSpokeBadWord: boolean = eventBody.transcripts?.some((transcript: Transcript) => {
         return transcript.channel.toLowerCase() === 'internal' 
-          && badWords.some((badWord: string) => transcript.alternatives?.[0]?.transcript?.toLowerCase()?.includes(badWord));
+          && blacklistedPhrases.some((badWord: string) => transcript.alternatives?.[0]?.transcript?.toLowerCase()?.includes(badWord));
       });
 
       // add the new interactions
@@ -386,7 +430,7 @@ export function QueueList(props: any) {
 
       setQueues(newQueues);
     };
-    addSubscription(transcriptionTopic, transcriptionCallback);
+    addSubscriptionWrapper(transcriptionTopic, transcriptionCallback);
   }
 
   /**
