@@ -16,9 +16,11 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how P
 
 The sample app included in this blueprint solution is an admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state based on whether the agent said one of the blacklisted phrases.  These phrases are defined within `src/components/queue-list/QueueList.tsx` and can be replaced with the phrases of your choosing.
 
-A word of warning: if your organization contains a large number of queues, you main encounter rate limits when subscribing to the conversations for each queue. This will lengthen the initialization time for the application. In this case, it is better to design your solution as a standalone app rather than an embedded client app.  This will allow you to run the app persistently in the background, avoiding the longer initialization time caused by the rate limits when navigating to the embbeded client app.
+```javascript
+const blacklistedPhrases: string[] = ['blacklisted phrase']; // Replace this with the phrases you want to blacklist
+```
 
-![Blacklisted phrases](images/blacklisted-phrases.png "Blacklisted phrases")
+A word of warning: if your organization contains a large number of queues, you main encounter rate limits when subscribing to the conversations for each queue. This will lengthen the initialization time for the application. In this case, it is better to design your solution as a standalone app rather than an embedded client app.  This will allow you to run the app persistently in the background, avoiding the longer initialization time caused by the rate limits when navigating to the embbeded client app.
 
 The blueprint describes the required steps to develop and integrate this sample app into Genesys Cloud.
 

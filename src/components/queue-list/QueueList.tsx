@@ -151,7 +151,7 @@ export function QueueList(props: any) {
 
   let closedConversationIds: string[] = [];
   let retryAfter: number = 0;
-  const blacklistedPhrases: string[] = ['bad word']; // Replace this with the phrases you want to blacklist
+  const blacklistedPhrases: string[] = ['blacklisted phrase']; // Replace this with the phrases you want to blacklist
 
   const [queues, setQueues] = useState<Queue[]>([]);
 
