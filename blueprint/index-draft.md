@@ -13,14 +13,14 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how P
 ## Scenario
 
 ## Solution
-
+`
 The sample app included in this blueprint solution is an admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state based on whether the agent said one of the blacklisted phrases. These phrases are defined within `src/components/queue-list/QueueList.tsx` and can be replaced with the phrases of your choosing.
 
 ```javascript
 const blacklistedPhrases: string[] = ['blacklisted phrase']; // Replace this with the phrases you want to blacklist
 ```
 
-:::warning: If your organization contains a large number of queues, you may encounter rate limits when subscribing to the conversations for each queue. In this case, one fix is to design your solution as a standalone app rather than an embedded client app. This allows you to initialize and run the app persistently in the background, which prevents re-initializing the embedded client app each time it is opened. Alternatively, you may implement a user-defined filter on the queue list with a maximum list size that prevents the rate limits. This will lengthen the initialization time for the application and could cause unexpected behavior.
+:::warning: **Warning**: If your organization contains a large number of queues, you may encounter rate limits when subscribing to the conversations for each queue. In this case, one fix is to design your solution as a standalone app rather than an embedded client app. This allows you to initialize and run the app persistently in the background, which prevents re-initializing the embedded client app each time it is opened. Alternatively, you may implement a user-defined filter on the queue list with a maximum list size that prevents the rate limits. This will lengthen the initialization time for the application and could cause unexpected behavior.
 :::
 
 The blueprint describes the required steps to develop and integrate this sample app into Genesys Cloud.
