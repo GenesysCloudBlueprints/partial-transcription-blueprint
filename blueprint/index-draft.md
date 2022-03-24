@@ -14,7 +14,7 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how P
 
 ## Solution
 
-The sample app included in this blueprint solution is an admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state based on whether the agent said one of the blacklisted phrases.  These phrases are defined within `src/components/queue-list/QueueList.tsx` and can be replaced with the phrases of your choosing.
+The sample app included in this blueprint solution is an admin dashboard that allows administrators to view active conversations in their organization's queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign a "standing" to each call. The "standing" is a simple good-or-bad state based on whether the agent said one of the blacklisted phrases. These phrases are defined within `src/components/queue-list/QueueList.tsx` and can be replaced with the phrases of your choosing.
 
 ```javascript
 const blacklistedPhrases: string[] = ['blacklisted phrase']; // Replace this with the phrases you want to blacklist
