@@ -6,12 +6,6 @@ const usersApi = new platformClient.UsersApi();
 const analyticsApi = new platformClient.AnalyticsApi();
 const routingApi = new platformClient.RoutingApi();
 
-/* 
- * This presence ID is hardcoded because System presence IDs are hardcoded into Genesys Cloud, can never change, and are not unique to orgs or regions
- * In constrast, Org presences are not hardcoded.
-*/
-const offlinePresenceId = 'ccf3c10a-aa2c-4845-8e8d-f59fa48c58e5';
-
 const client = platformClient.ApiClient.instance;
 const { clientId, redirectUri } = clientConfig;
 
@@ -83,7 +77,7 @@ export async function getQueues(skipCache: boolean = false) {
  */
 export function getActiveConversationsForQueue(queueId: string) {
   const startInterval = moment().add(-1, 'day').startOf('day');
-  const endInterval = moment().add(1, 'day'). startOf('day');
+  const endInterval = moment().add(1, 'day').startOf('day');
 
   const body: any = {
     interval: `${startInterval.toISOString(true)}/${endInterval.toISOString(true)}`,

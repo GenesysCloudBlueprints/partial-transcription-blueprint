@@ -45,7 +45,7 @@ export function Conversation(props: IProps) {
                         <div className="status-name">{conversation.assignedAgent?.agentName}</div>
                     </div>
                     <div className="agent-image">
-                        <img src={conversation.assignedAgent?.imageUri || ''} />
+                        <img alt="agent" src={conversation.assignedAgent?.imageUri || ''} />
                     </div>
                 </div>
             </div>
