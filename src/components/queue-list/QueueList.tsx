@@ -151,7 +151,7 @@ export function QueueList(props: any) {
 
   let closedConversationIds: string[] = [];
   let retryAfter: number = 0;
-  const badWords: string[] = ['bad word'];
+  const badWords: string[] = ['um', 'uh', 'mm'];
 
   const [queues, setQueues] = useState<Queue[]>([]);
 
@@ -163,10 +163,10 @@ export function QueueList(props: any) {
   /*
    * Initializes the data and subscriptions for the Active Conversations Dashboard
    */
-  async function setupQueues() {
+  function setupQueues() {
     let tempQueues: Queue[];
     // authenticate logged-in user
-    await authenticate()
+    authenticate()
       .then((data: any) => {
         createChannel();
         return data;
@@ -251,14 +251,13 @@ export function QueueList(props: any) {
       console.log('QUEUE CONVERSATION DATA', data);
       const { eventBody } = data;
 
-      if (!matchingQueue || closedConversationIds.find((cid: string) => cid === eventBody.id)) return;
+      if (!matchingQueue || closedConversationIds.some((cid: string) => cid === eventBody.id)) return;
       
       const terminatedParticipantsLength = eventBody.participants?.filter((p: Participant) => p.state?.toLowerCase() === 'terminated' || p.state?.toLowerCase() === 'disconnected')?.length || 0;
       const participantsLength = eventBody.participants?.length || 0;
     
       // If the call is disconnected, remove the subscription
       if (participantsLength && terminatedParticipantsLength === participantsLength) {
-        cancelSubscription(queueConversationTopic);
         closedConversationIds.push(eventBody.id);
         const newQueues: Queue[] = baseQueues.map((queue: Queue) => {
           return {
@@ -361,7 +360,7 @@ export function QueueList(props: any) {
       const matchingQueue = baseQueues.find((queue: Queue) => queue.conversationIds?.some((id: string) => id === conversationId));
       const matchingConversation = matchingQueue?.conversationIds?.find((cId: string) => cId === conversationId);
 
-      if (!matchingQueue || !matchingConversation || closedConversationIds.find((cId: string) => cId === conversationId)) return;
+      if (!matchingQueue || !matchingConversation || closedConversationIds.some((cId: string) => cId === conversationId)) return;
 
       // If the call is disconnected, remove the subscription
       if (eventBody.status?.status === 'SESSION_ENDED') {
