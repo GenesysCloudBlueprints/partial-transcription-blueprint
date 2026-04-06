@@ -65,41 +65,49 @@ For more information, see: [Partial Transcription Blueprint](https://github.com/
 git clone https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git
 ```
 
-### Create an Implicit Grant OAuth
+### Create a Client Credentials OAuth
 
-1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Implicit Grant). [Create an OAuth client](https://help.mypurecloud.com/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
-2. Add **http://localhost:3000** to the **Authorized redirect URIs**.
-
-**Note**: If the **redirectUri** value  has changed in the config file, you must add the new URI.
-
-3. Add the following in the Scopes section:
+1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Client Credentials). [Create an OAuth client](https://help.mypurecloud.com/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
+2. Assign a role that has the following permissions:
     * analytics
     * authorization
     * conversations
     * notifications
     * routing
     * users
-4. Save the Client ID to use in the configuration project.
+3. Save the Client ID and Client Secret to use in the configuration project.
 
-### Update configuration file
+### Update configuration
 
-Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step as follows:
+Create a `.env` file in the root directory of the project with the values from the OAuth Client you created in the last step:
 
-clientConfig.js:
-
-```javascript
-export const clientConfig = {
-  GENESYS_CLOUD_CLIENT_ID: '<YOUR CLIENT ID HERE>',
-  REDIRECT_URI: '<YOUR PRODUCTION URI HERE>',
-};
 ```
+GENESYS_CLIENT_ID=""
+GENESYS_CLIENT_SECRET=""
+GENESYS_REGION="mypurecloud.com"
+```
+
+**Note**: Set `GENESYS_REGION` to match your Genesys Cloud region (e.g., `mypurecloud.com`, `mypurecloud.de`, `mypurecloud.com.au`, `mypurecloud.jp`). Never commit the `.env` file to source control. It is already included in `.gitignore`.
 
 ### Run the app
 
-Open a terminal and set the working directory to the root directory of the project, then run the following:
+Open a terminal and set the working directory to the root directory of the project.
+
+1. Install dependencies:
 
 ```bash
 npm install
+```
+
+2. Start the backend proxy server (handles Client Credentials auth):
+
+```bash
+npm run start:server
+```
+
+3. In a separate terminal, start the React app:
+
+```bash
 npm run start
 ```
 

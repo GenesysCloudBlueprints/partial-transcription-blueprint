@@ -1,4 +1,4 @@
-export const clientConfig = {
-    clientId: 'a687296a-5833-4885-9721-2c6edbed1ad2',
-    redirectUri: 'http://localhost:3000',
-}
+// Client Credentials configuration is managed via environment variables
+// in the .env file and used by the backend proxy server (server.js).
+// The React frontend communicates with the proxy at http://localhost:3001.
+export const proxyBase = 'http://localhost:3001/api/v2';

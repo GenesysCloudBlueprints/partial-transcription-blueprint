@@ -1,8 +1,14 @@
 /**
  * This file manages the channel that listens to conversation events.
+ * API calls are proxied through the backend server (server.js) which
+ * handles Client Credentials authentication.
  */
 
- interface IChannelResponse {
+import { proxyBase } from '../config/clientConfig';
+
+const PROXY = proxyBase;
+
+interface IChannelResponse {
     connectUri: string,
     expires: string,
     id: string
@@ -16,12 +22,9 @@ interface ISubscriptionResponse {
     entities: IEntity[]
 }
 
-const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
-const notificationsApi = new platformClient.NotificationsApi();
- 
 let channel: any = {};
-let ws = null;
- 
+let ws: WebSocket | null = null;
+
 // Object that will contain the subscription topic as key and the
 // callback function as the value
 const subscriptionMap: any = {
@@ -29,15 +32,14 @@ const subscriptionMap: any = {
         console.log('Notification heartbeat.');
     }
 };
- 
+
 /**
  * Callback function for notications event-handling.
  * It will reference the subscriptionMap to determine what function to run
- * @param {Object} event 
+ * @param {Object} event
  */
 function onSocketMessage(event: any) {
     const data = JSON.parse(event.data);
-
     subscriptionMap[data.topicName](data);
 }
 
@@ -46,13 +48,19 @@ function onSocketMessage(event: any) {
  * the last one will be the active one.
  */
 export function createChannel() {
-   return notificationsApi.postNotificationsChannels()
-   .then((data: IChannelResponse) => {
-        console.log('---- Created Notifications Channel ----');
-        channel = data;
-        ws = new WebSocket(channel.connectUri);
-        ws.onmessage = onSocketMessage;
-   });
+    return fetch(`${PROXY}/notifications/channels`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+        .then((res) => res.json())
+        .then((data: IChannelResponse) => {
+            console.log('---- Created Notifications Channel ----');
+            channel = data;
+            // Connect via the proxy WebSocket to avoid browser auth issues
+            const proxyWsUrl = `ws://localhost:3001?target=${encodeURIComponent(channel.connectUri)}`;
+            ws = new WebSocket(proxyWsUrl);
+            ws.onmessage = onSocketMessage;
+        });
 }
 
 /**
@@ -61,16 +69,21 @@ export function createChannel() {
  * @param {Function} callback callback function to fire when the event occurs
  */
 export function addSubscription(topic: string, callback: any) {
-    const body = [{'id': topic}];
-    return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
-       .then((data: ISubscriptionResponse) => {
-           subscriptionMap[topic] = callback;
-           console.log(`Added subscription to ${topic}`, data);
-       })
-       .catch((err: any) => {
-           console.error('Error adding subscription', err);
-           return err;
-       });
+    const body = [{ 'id': topic }];
+    return fetch(`${PROXY}/notifications/channels/${channel.id}/subscriptions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+    })
+        .then((res) => res.json())
+        .then((data: ISubscriptionResponse) => {
+            subscriptionMap[topic] = callback;
+            console.log(`Added subscription to ${topic}`, data);
+        })
+        .catch((err: any) => {
+            console.error('Error adding subscription', err);
+            return err;
+        });
 }
 
 /**
@@ -79,11 +92,17 @@ export function addSubscription(topic: string, callback: any) {
  * @param {Function} callback callback function to fire when the event occurs
  */
 export async function removeSubscription(topic: string, callback: any) {
-    const { entities = [] } = await notificationsApi.getNotificationsChannelSubscriptions(channel.id);
+    const res = await fetch(`${PROXY}/notifications/channels/${channel.id}/subscriptions`);
+    const { entities = [] } = await res.json();
     const body = entities.filter((entity: any) => entity.id !== topic);
-    return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
-       .then((data: ISubscriptionResponse) => {
-           subscriptionMap[topic] = callback;
-           console.log(`Removed subscription to ${topic}`);
-       });
+    return fetch(`${PROXY}/notifications/channels/${channel.id}/subscriptions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+    })
+        .then((res) => res.json())
+        .then((data: ISubscriptionResponse) => {
+            subscriptionMap[topic] = callback;
+            console.log(`Removed subscription to ${topic}`);
+        });
 }

@@ -21,6 +21,7 @@ interface Agent {
   imageUri?: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ActiveConversationData {
   queueId: string,
   conversations: ActiveConversation[]
@@ -179,13 +180,13 @@ export function QueueList(props: any) {
       // get the active conversations for the queues
       .then((queueResponse: QueueResponse) => {
         console.log('QUEUES', queueResponse);
-        tempQueues = queueResponse?.entities;
+        tempQueues = queueResponse?.entities || [];
         setQueues(tempQueues);
 
         return Promise.all(tempQueues.map((queue: Queue) => getActiveConversationsForQueue(queue.id)))
       })
       // get the assigned agent info for each active conversation
-      .then(async (activeConversationResponse: ActiveConversationData[]) => {
+      .then(async (activeConversationResponse: any[]) => {
         console.log('ACTIVE CONVERSATION RESPONSE', activeConversationResponse);
 
         return {
@@ -440,7 +441,7 @@ export function QueueList(props: any) {
    */
   function renderQueueCards() {
 
-    const queueSections: AccordionData[] = queues.map((queue: Queue) => {
+    const queueSections: AccordionData[] = (queues || []).map((queue: Queue) => {
       queue.conversations && console.log('QUEUE CONVERSATIONS', queue.conversations);
       // setup conversations
       const conversationSections: AccordionData[] = (queue.conversations || []).map((conversation: IConversation) => {
