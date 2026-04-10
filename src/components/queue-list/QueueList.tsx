@@ -21,16 +21,6 @@ interface Agent {
   imageUri?: string
 }
 
-interface ActiveConversationData {
-  queueId: string,
-  conversations: ActiveConversation[]
-}
-
-interface ActiveConversation {
-  conversationId: string,
-  participants: Participant[]
-}
-
 export interface IConversation {
   assignedAgent?: Agent,
   conversationId: string,
@@ -179,13 +169,13 @@ export function QueueList(props: any) {
       // get the active conversations for the queues
       .then((queueResponse: QueueResponse) => {
         console.log('QUEUES', queueResponse);
-        tempQueues = queueResponse?.entities;
+        tempQueues = queueResponse?.entities || [];
         setQueues(tempQueues);
 
         return Promise.all(tempQueues.map((queue: Queue) => getActiveConversationsForQueue(queue.id)))
       })
       // get the assigned agent info for each active conversation
-      .then(async (activeConversationResponse: ActiveConversationData[]) => {
+      .then(async (activeConversationResponse: any[]) => {
         console.log('ACTIVE CONVERSATION RESPONSE', activeConversationResponse);
 
         return {
@@ -196,7 +186,7 @@ export function QueueList(props: any) {
             return await Promise.all(activeConversations.map(async (ac: any) => {
               const agent: any = ac.participants?.find((participant: Participant) => participant.purpose?.toLowerCase() === 'agent');
               const agentId: string = agent?.userId || '';
-              const { agentName, imageUri } = await getAgentByUserId(agentId);
+              const { agentName, imageUri } = await getAgentByUserId(agentId) as any;
 
               return { conversationId: ac.conversationId, agentName, imageUri };
             }));
@@ -277,8 +267,7 @@ export function QueueList(props: any) {
       if (!conversationAlreadyPresent) {
         const agent: Participant | undefined = eventBody.participants.find((participant: Participant) => participant.purpose.toLowerCase() === 'agent');
         const agentId: string = agent?.user?.id || '';
-        const { agentName, imageUri } = await getAgentByUserId(agentId);
-
+        const { agentName, imageUri } = await getAgentByUserId(agentId) as any;
         const sortedParticipants: Participant[] = eventBody.participants
           ?.filter((p: Participant) => p.connectedTime)
           ?.sort((p1: Participant, p2: Participant) => {

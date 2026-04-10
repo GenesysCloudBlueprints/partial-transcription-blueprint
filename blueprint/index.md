@@ -65,9 +65,9 @@ For more information, see: [Partial Transcription Blueprint](https://github.com/
 git clone https://github.com/GenesysCloudBlueprints/partial-transcription-blueprint.git
 ```
 
-### Create an Implicit Grant OAuth
+### Create a Code Authorization (PKCE) OAuth
 
-1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Implicit Grant). [Create an OAuth client](https://help.mypurecloud.com/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
+1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Code Authorization). [Create an OAuth client](https://help.mypurecloud.com/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
 2. Add **http://localhost:3000** to the **Authorized redirect URIs**.
 
 **Note**: If the **redirectUri** value  has changed in the config file, you must add the new URI.
@@ -81,6 +81,10 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
     * users
 4. Save the Client ID to use in the configuration project.
 
+:::primary
+**Note**: This solution uses the PKCE (Proof Key for Code Exchange) flow via the SDK's `loginPKCEGrant` method. No client secret is needed on the browser side since PKCE secures the authorization code exchange using a dynamically generated code verifier and challenge.
+:::
+
 ### Update configuration file
 
 Modify the values in the configuration file before running the app. Use the values from the OAuth Client you created in the last step as follows:
@@ -89,9 +93,18 @@ clientConfig.js:
 
 ```javascript
 export const clientConfig = {
-  GENESYS_CLOUD_CLIENT_ID: '<YOUR CLIENT ID HERE>',
-  REDIRECT_URI: '<YOUR PRODUCTION URI HERE>',
+  clientId: process.env.REACT_APP_CLIENT_ID || '<YOUR CLIENT ID HERE>',
+  redirectUri: process.env.REACT_APP_REDIRECT_URI || '<YOUR PRODUCTION URI HERE>',
+  gcEnvironment: process.env.REACT_APP_GC_ENVIRONMENT || 'mypurecloud.com',
 };
+```
+
+Alternatively, create a `.env` file in the project root (see `.env.example` for reference):
+
+```
+REACT_APP_CLIENT_ID=your-oauth-client-id
+REACT_APP_REDIRECT_URI=http://localhost:3000
+REACT_APP_GC_ENVIRONMENT=mypurecloud.com
 ```
 
 ### Run the app
@@ -102,6 +115,8 @@ Open a terminal and set the working directory to the root directory of the proje
 npm install
 npm run start
 ```
+
+**Note**: If you are using Node.js v17 or later, the `NODE_OPTIONS=--openssl-legacy-provider` flag is already included in the `start` and `build` scripts in `package.json` to handle OpenSSL 3.0 compatibility with Webpack 4.
 
 ### Install and activate the Client Application in Genesys Cloud
 
@@ -187,7 +202,7 @@ If you configure an existing React app, you should use a version greater than v1
 1. Install the Genesys Cloud Platform Client:
 
     ```bash
-    npm install purecloud-platform-client-v2
+    npm install purecloud-platform-client-v2@^228.0.0
     ```
 
 ### Import the platform-client-sdk to your project
@@ -195,14 +210,14 @@ If you configure an existing React app, you should use a version greater than v1
 Use the following process to import the platform-client-sdk:
 
 ```javascript
-const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
+const platformClient = require('purecloud-platform-client-v2/dist/web-cjs/bundle.js');
 ```
 Now, you can use the various API tools in the platformClient object.
 
 Example:
 
 ```javascript
-const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
+const platformClient = require('purecloud-platform-client-v2/dist/web-cjs/bundle.js');
 const searchApi = new platformClient.SearchApi();
 const usersApi = new platformClient.UsersApi();
 const analyticsApi = new platformClient.AnalyticsApi();
