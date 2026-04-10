@@ -1,13 +1,3 @@
----
-title: Develop an Integration app that uses Partial Transcript notifications
-author: jacob.shaw
-indextype: blueprint
-icon: blueprint
-image: images/flowchart.png
-category: 6
-summary: This Genesys Cloud Developer Blueprint demonstrates an example of how partial transcript notifications can be used in the context of a Genesys Cloud Integration. The sample app is about an admin dashboard that allows administrators to view active conversations in the admin's organization queues. The administrator can look at info about each conversation, including the ongoing transcript, and assign the call and "standing" of the call. The "standing" of the call is a binary good-or-bad state depending whether the agent uttered one of the red-listed words. The blueprint describes the required steps to develop and integrate this app into the Genesys Cloud app.
----
-
 ## Contents
 
 * [Solution components](#solution-components "Goes to the Solutions components section")
@@ -24,7 +14,7 @@ summary: This Genesys Cloud Developer Blueprint demonstrates an example of how p
 
 - **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. You deploy the Chat Translator solution in Genesys Cloud.
 - **Genesys AppFoundry** - The Genesys app marketplace for solutions that run on the Genesys Cloud platform. You download the integration used in this solution from the Genesys AppFoundry.
-- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. For more information, see: [Set up a Client Application integration](https://help.mypurecloud.com/?p=131851 "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
+- **Client Application integration** - The Genesys Cloud integration that embeds third-party webapps via iframe in the Genesys Cloud UI. For more information, see: [Set up a Client Application integration](https://help.genesys.cloud/?p=131851 "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
 
 ## Prerequisites
 
@@ -54,7 +44,7 @@ This solution requires implementation experience in several areas or a willingne
 
 This solution requires a Genesys Cloud license. For more information, see: [Genesys Cloud pricing](https://www.genesys.com/pricing "Goes to Pick the Perfect Plan for your Business page").
 
-A recommended Genesys Cloud role for the solutions engineer is the Master Admin. For more information, see: [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Goes to Roles and permissions overview article") in the Genesys Cloud Developer Center.
+A recommended Genesys Cloud role for the solutions engineer is the Master Admin. For more information, see: [Roles and permissions overview](https://help.genesys.cloud/?p=24360 "Goes to Roles and permissions overview article") in the Genesys Cloud Developer Center.
 
 ## Running locally
 
@@ -67,7 +57,7 @@ git clone https://github.com/GenesysCloudBlueprints/partial-transcription-bluepr
 
 ### Create a Code Authorization (PKCE) OAuth
 
-1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Code Authorization). [Create an OAuth client](https://help.mypurecloud.com/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
+1. Log in to your Genesys Cloud organization and create a new OAuth Credential (Code Authorization). [Create an OAuth client](https://help.genesys.cloud/?p=188023 "Goes to create an OAuth client page") in the Genesys Cloud Resource Center.
 2. Add **http://localhost:3000** to the **Authorized redirect URIs**.
 
 **Note**: If the **redirectUri** value  has changed in the config file, you must add the new URI.
@@ -120,8 +110,8 @@ npm run start
 
 ### Install and activate the Client Application in Genesys Cloud
 
-1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.mypurecloud.com/articles/add-an-integration/ "Goes to Add an integration page") in the Genesys Cloud Resource Center.
-2. Install the **Client Application** integration. For more information, see [Set up a Client Application integration](https://help.mypurecloud.com/articles/set-custom-client-application-integration/ "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
+1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.genesys.cloud/articles/add-an-integration/ "Goes to Add an integration page") in the Genesys Cloud Resource Center.
+2. Install the **Client Application** integration. For more information, see [Set up a Client Application integration](https://help.genesys.cloud/articles/set-custom-client-application-integration/ "Goes to Set up a Client Application integration page") in the Genesys Cloud Resource Center.
 3. (Optional) Use the Name box to give the widget a meaningful name (e.g., **Active Conversation Dashboard**).
 
 ![Client Application Integration](images/integration.png)
@@ -137,22 +127,22 @@ npm run start
 8. Activate the Client Application
 
 ### Test the solution
-1. Set up a test queue with only you as a member since this guarantees you are assigned inbound calls to the queue. For more information, see: [Create and configure queues](https://help.mypurecloud.com/?p=18650 "Goes to the Create and configure queues page") in the Genesys Cloud Resource Center.
+1. Set up a test queue with only you as a member since this guarantees you are assigned inbound calls to the queue. For more information, see: [Create and configure queues](https://help.genesys.cloud/?p=18650 "Goes to the Create and configure queues page") in the Genesys Cloud Resource Center.
 ** - Make sure that “Voice Transcription” is enabled in both queue settings, Speech, and Text Analytics:
 
 ![Transcription Setting Queue](images/transcription-queue.png)
 ![Transcription Setting Analytics](images/transcription-speech-and-text.png)
 
 
-2. Ensure there is an inbound call flow configured to transfer inbound calls to the selected queue. For more information, see: [Work with inbound flows](https://help.mypurecloud.com/articles/work-with-inbound-call-flows/ "Goes to the Work with inbound flows page") in the Genesys Cloud Resource Center.
+2. Ensure there is an inbound call flow configured to transfer inbound calls to the selected queue. For more information, see: [Work with inbound flows](https://help.genesys.cloud/articles/work-with-inbound-call-flows/ "Goes to the Work with inbound flows page") in the Genesys Cloud Resource Center.
 
 ![Inbound Call Flow](images/inbound-call-flow.png)
 
-3. Ensure there is a call route assigned to the inbound call flow from the previous step. For more information, see: [Add a call route](https://help.mypurecloud.com/articles/add-a-call-route/ "Goes to the Add a call route page") in the Genesys Cloud Resource Center.
+3. Ensure there is a call route assigned to the inbound call flow from the previous step. For more information, see: [Add a call route](https://help.genesys.cloud/articles/add-a-call-route/ "Goes to the Add a call route page") in the Genesys Cloud Resource Center.
 
 ![Call route](images/call-route.png)
 
-4. Ensure there is a DID number assigned to the call route from the previous step. For more information, see: [Manage DID and toll-free number assignments](https://help.mypurecloud.com/?p=45223 "Goes to the Manage DID and toll-free number assignments page") in the Genesys Cloud Resource Center.
+4. Ensure there is a DID number assigned to the call route from the previous step. For more information, see: [Manage DID and toll-free number assignments](https://help.genesys.cloud/?p=45223 "Goes to the Manage DID and toll-free number assignments page") in the Genesys Cloud Resource Center.
 
 ![DID Assignment](images/did-assignment.png)
 
