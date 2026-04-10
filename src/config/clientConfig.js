@@ -1,4 +1,5 @@
 export const clientConfig = {
-    clientId: 'a687296a-5833-4885-9721-2c6edbed1ad2',
-    redirectUri: 'http://localhost:3000',
+    clientId: process.env.REACT_APP_CLIENT_ID || '<YOUR CLIENT ID HERE>',
+    redirectUri: process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000',
+    gcEnvironment: process.env.REACT_APP_GC_ENVIRONMENT || 'mypurecloud.com',
 }

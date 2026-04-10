@@ -1,23 +1,25 @@
 import { clientConfig } from '../config/clientConfig';
 import moment from 'moment';
-const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
+const platformClient = require('purecloud-platform-client-v2/dist/web-cjs/bundle.js');
 
 const usersApi = new platformClient.UsersApi();
 const analyticsApi = new platformClient.AnalyticsApi();
 const routingApi = new platformClient.RoutingApi();
 
 const client = platformClient.ApiClient.instance;
-const { clientId, redirectUri } = clientConfig;
+const { clientId, redirectUri, gcEnvironment } = clientConfig;
+
+client.setEnvironment(gcEnvironment);
 
 const cache: any = {};
 
 /**
- * Authenticate the client using Implicit Grant.
+ * Authenticate the client using Code Authorization with PKCE.
  * 
  * @returns auth data
  */
 export function authenticate() {
-    return client.loginImplicitGrant(clientId, redirectUri, { state: 'state' })
+    return client.loginPKCEGrant(clientId, redirectUri, { state: 'state' })
         .then((data: any) => {
             return data;
         })

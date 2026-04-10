@@ -2,21 +2,8 @@
  * This file manages the channel that listens to conversation events.
  */
 
- interface IChannelResponse {
-    connectUri: string,
-    expires: string,
-    id: string
-}
+const platformClient = require('purecloud-platform-client-v2/dist/web-cjs/bundle.js');
 
-interface IEntity {
-    id: string
-}
-
-interface ISubscriptionResponse {
-    entities: IEntity[]
-}
-
-const platformClient = require('purecloud-platform-client-v2/dist/node/purecloud-platform-client-v2.js');
 const notificationsApi = new platformClient.NotificationsApi();
  
 let channel: any = {};
@@ -47,7 +34,7 @@ function onSocketMessage(event: any) {
  */
 export function createChannel() {
    return notificationsApi.postNotificationsChannels()
-   .then((data: IChannelResponse) => {
+   .then((data: any) => {
         console.log('---- Created Notifications Channel ----');
         channel = data;
         ws = new WebSocket(channel.connectUri);
@@ -63,7 +50,7 @@ export function createChannel() {
 export function addSubscription(topic: string, callback: any) {
     const body = [{'id': topic}];
     return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
-       .then((data: ISubscriptionResponse) => {
+       .then((data: any) => {
            subscriptionMap[topic] = callback;
            console.log(`Added subscription to ${topic}`, data);
        })
@@ -82,7 +69,7 @@ export async function removeSubscription(topic: string, callback: any) {
     const { entities = [] } = await notificationsApi.getNotificationsChannelSubscriptions(channel.id);
     const body = entities.filter((entity: any) => entity.id !== topic);
     return notificationsApi.postNotificationsChannelSubscriptions(channel.id, body)
-       .then((data: ISubscriptionResponse) => {
+       .then((data: any) => {
            subscriptionMap[topic] = callback;
            console.log(`Removed subscription to ${topic}`);
        });
