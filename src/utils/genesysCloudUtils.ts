@@ -11,15 +11,87 @@ const { clientId, redirectUri, gcEnvironment } = clientConfig;
 
 client.setEnvironment(gcEnvironment);
 
+// Authenticate in a pop-out window instead of a redirect/iframe.
+// Embedding the Genesys Cloud login web application within an iframe is deprecated
+// (effective 2027-02-04), so pop-out authentication is required.
+// See: https://help.genesys.cloud/announcements/genesys-cloud/deprecation-ability-to-embed-the-genesys-cloud-login-web-application-within-an-iframe/
+client.setAuthPopupConfiguration({ usePopup: true });
+
 const cache: any = {};
 
 /**
+ * Detects whether the current window is the Genesys Cloud auth popup that has
+ * just been redirected back to the configured redirectUri with an auth result
+ * (`?code=...` or `?error=...`) in the URL.
+ */
+export function isInAuthPopup(): boolean {
+    return (
+        typeof window !== 'undefined' &&
+        !!window.opener &&
+        window.opener !== window &&
+        /[?&](code|error)=/.test(window.location.search)
+    );
+}
+
+/**
+ * Completes popup-based authentication from inside the popup window.
+ *
+ * The SDK has no popup-side logic: the PKCE exchange runs entirely in the opener
+ * (the main app window), which is waiting for a postMessage handshake. When our
+ * app happens to load inside the popup after Genesys redirects back to
+ * redirectUri with `?code=...`, we must hand the auth result back to the opener
+ * so its loginPKCEGrant promise resolves — we must NOT run loginPKCEGrant, render
+ * the dashboard, or make any API calls here.
+ *
+ * Call this before rendering the app. It returns true when it handled a popup
+ * completion (in which case the caller should not render the app), false
+ * otherwise.
+ */
+export function completeAuthPopupIfPresent(): boolean {
+    if (!isInAuthPopup()) return false;
+
+    const opener: Window | null = window.opener;
+    if (!opener) {
+        // No opener to hand the result to — nothing we can safely do. Do NOT fall
+        // through to the dashboard init.
+        console.error('Popup auth completion failed: no window.opener to notify.');
+        return true;
+    }
+
+    // The message shape must match ApiClient._handleAuthPopupMessage: name
+    // "gc_auth_popup", type "message", with search/hash carrying the ?code=...
+    // back. Target the opener's exact origin (never '*') — this also matches the
+    // origin check the opener runs via redirectUri.startsWith(event.origin).
+    const openerOrigin = new URL(redirectUri).origin;
+    opener.postMessage(
+        {
+            name: 'gc_auth_popup',
+            type: 'message',
+            search: window.location.search,
+            hash: window.location.hash,
+        },
+        openerOrigin,
+    );
+
+    // The opener is configured with autoClosePopup (default true) and will close
+    // this window after processing the message; close as a fallback.
+    window.close();
+    return true;
+}
+
+/**
  * Authenticate the client using Code Authorization with PKCE.
- * 
+ *
+ * Authentication is performed in a pop-out window (usePopup: true) rather than a
+ * same-window redirect so the app continues to work when hosted inside an iframe.
+ *
  * @returns auth data
  */
 export function authenticate() {
-    return client.loginPKCEGrant(clientId, redirectUri, { state: 'state' })
+    return client.loginPKCEGrant(clientId, redirectUri, {
+        state: 'state',
+        authPopupConfiguration: { usePopup: true },
+    })
         .then((data: any) => {
             return data;
         })
