@@ -106,7 +106,9 @@ npm install
 npm run start
 ```
 
-**Note**: If you are using Node.js v17 or later, the `NODE_OPTIONS=--openssl-legacy-provider` flag is already included in the `start` and `build` scripts in `package.json` to handle OpenSSL 3.0 compatibility with Webpack 4.
+**Notes**: 
+* If you are using Node.js v17 or later, the `NODE_OPTIONS=--openssl-legacy-provider` flag is already included in the `start` and `build` scripts in `package.json` to handle OpenSSL 3.0 compatibility with Webpack 4.
+* Allow your browser to open popups because a popup authentication to Genesys Cloud will occur once opened.
 
 ### Install and activate the Client Application in Genesys Cloud
 
@@ -119,8 +121,9 @@ npm run start
 4. Click the Configuration tab.
 5. In the Application URL box, type the URL of the web application. Be sure to specify the full URL.
 `https://localhost:3000`
-6. In the Application Type dropdown, select **widget**
-7. To limit access to specific groups of agents, in Group Filtering, select the groups that use the widget.
+6. In the Application Type dropdown, select **widget**.
+7. In **Iframe Sandbox Options**, add `allow-popups`.
+8. To limit access to specific groups of agents, in Group Filtering, select the groups that use the widget.
 
 ![Client Application Integration Config](images/integration-config.png)
 
